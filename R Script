@@ -1,1 +1,71 @@
+# =============================================================================
+# PROJECT: Policy Volatility & Strategic Plasticity in Emerging Markets
+# PHASE: II - Quantitative Prototyping (Benchmarking & Trap Visualization)
+# AUTHOR: Leonardo Ramos (2026)
+# DATA SOURCE: World Bank WDI (GDP & Gross Capital Formation)
+# DESCRIPTION: This script analyzes the relationship between realized 
+# volatility (GDP SD) and fixed capital investment to identify the "Strategic 
+# Plasticity" thresholds in Southern Cone economies.
+# =============================================================================
+library(tidyverse)
+library(ggrepel)
+library(ggpmisc)
+options(scipen = 999)
 
+# --- 1. DATA PREPARATION (Shared for both phases) -----------------------------
+gdp <- read_csv("data/gdp.csv", skip = 4)
+inv <- read_csv("data/investment.csv", skip = 4)
+
+# Calculate Volatility Proxy (SD of Growth)
+vol_data <- gdp %>%
+  pivot_longer(cols = starts_with("19") | starts_with("20"), names_to = "year", values_to = "gdp_val") %>%
+  filter(!is.na(gdp_val), as.numeric(year) >= 2005) %>%
+  group_by(`Country Name`) %>%
+  arrange(year) %>%
+  mutate(growth = (gdp_val / lag(gdp_val) - 1) * 100) %>%
+  summarise(pvi_proxy = sd(growth, na.rm = TRUE))
+
+# Calculate Investment Mean
+inv_data <- inv %>%
+  pivot_longer(cols = starts_with("19") | starts_with("20"), names_to = "year", values_to = "inv_val") %>%
+  filter(!is.na(inv_val), as.numeric(year) >= 2005) %>%
+  group_by(`Country Name`) %>%
+  summarise(mean_inv = mean(inv_val, na.rm = TRUE))
+
+# Merge and Define Groups
+latam_focus <- c("Brazil", "Argentina", "Chile", "Uruguay", "Paraguay", "Mexico", "Peru", "Ecuador", "El Salvador")
+benchmarks <- c("United States", "Switzerland", "Norway", "Germany")
+
+analysis_df <- left_join(vol_data, inv_data, by = "Country Name") %>%
+  filter(!is.na(pvi_proxy), !is.na(mean_inv), pvi_proxy < 15) %>%
+  mutate(Category = case_when(
+    `Country Name` %in% latam_focus ~ "Southern Cone/Focus",
+    `Country Name` %in% benchmarks ~ "Global Benchmark",
+    TRUE ~ "Other Peers"
+  ))
+
+# --- PLOT 1: THE GLOBAL COMPARISON (BENCHMARKING) -----------------------------
+ggplot(analysis_df, aes(x = pvi_proxy, y = mean_inv)) +
+  geom_point(data = filter(analysis_df, Category == "Other Peers"), alpha = 0.2, color = "grey70") +
+  geom_point(data = filter(analysis_df, Category != "Other Peers"), aes(color = Category), size = 3) +
+  geom_text_repel(data = filter(analysis_df, Category != "Other Peers"), aes(label = `Country Name`)) +
+  scale_color_manual(values = c("Southern Cone/Focus" = "#C0392B", "Global Benchmark" = "#2C3E50")) +
+  labs(title = "Southern Cone Volatility vs. Global Benchmarks", x = "Volatility Proxy", y = "Investment %") +
+  theme_minimal()
+ggsave("1_Global_Comparison.png", width = 8, height = 6)
+
+# --- PLOT 2: THE STRATEGIC PLASTICITY "TRAP" (THEORY) -------------------------
+vol_threshold <- quantile(analysis_df$pvi_proxy, 0.75, na.rm = TRUE)
+inv_threshold <- quantile(analysis_df$mean_inv, 0.25, na.rm = TRUE)
+
+ggplot(analysis_df, aes(x = pvi_proxy, y = mean_inv)) +
+  annotate("rect", xmin = vol_threshold, xmax = Inf, ymin = -Inf, ymax = inv_threshold, fill = "red", alpha = 0.1) +
+  geom_point(aes(color = (pvi_proxy >= vol_threshold & mean_inv <= inv_threshold)), alpha = 0.6) +
+  geom_text_repel(data = filter(analysis_df, `Country Name` %in% latam_focus), aes(label = `Country Name`), fontface = "bold") +
+  geom_smooth(method = "lm", linetype = "dashed", color = "black") +
+  scale_color_manual(values = c("FALSE" = "grey70", "TRUE" = "#C0392B"), guide = "none") +
+  labs(title = "Visualizing the 'Volatility Trap'",
+       subtitle = "Red Zone: High Volatility paired with low Investment Commitment",
+       x = "Volatility Proxy (PVI Under Development)", y = "Mean Investment %") +
+  theme_classic()
+ggsave("2_The_Volatility_Trap.png", width = 8, height = 6)
