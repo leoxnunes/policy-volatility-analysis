@@ -15,3 +15,20 @@ Technical Note
 Data: Derived from World Bank World Development Indicators (2000–2025).
 
 Methodology: Volatility is currently proxied by GDP Growth Standard Deviation. A custom Policy Volatility Index (PVI), measuring enacted legislative and executive changes, is under construction as part of Phase 1 of the doctoral work plan.
+
+Extended Research Context: Mapping the 'Red Zone'
+The core of this analysis lies in the distinction between Phase I (Benchmarking) and Phase II (Theoretical Mapping).
+
+Phase I: The Regional Investment Gap
+By comparing the Southern Cone (Brazil, Argentina, Chile, Uruguay, Paraguay) against global stable benchmarks (USA, Switzerland, Germany), we observe a persistent "Investment Gap." While stable economies cluster in the high-investment/low-volatility quadrant, emerging markets are pulled toward the right side of the x-axis, indicating that volatility is a structural feature, not a temporary shock.
+
+Phase II: The Strategic Plasticity Threshold
+The "Volatility Trap" visualization uses a data-driven approach to identify the environment of Strategic Plasticity. By calculating the Upper Quartile of Volatility and the Lower Quartile of Investment, we highlight a "Red Zone."
+
+Theoretical Implications:
+
+Rational Non-commitment: Countries within this zone (predominantly high-volatility emerging markets) create a rational incentive for firms to avoid high asset specificity.
+
+Sunk Cost Aversion: As volatility crosses the identified threshold, the risk of "Capital Lock-in" outweighs the potential returns of long-term projects, leading firms to favor reversible, modular, or liquid operations.
+
+Relocation Dynamics: This empirical mapping provides the quantitative context for why firms (e.g., Brazilian manufacturers relocating to Paraguay) seek "Stability Arbitrage"—moving not necessarily for lower taxes, but to exit the high-volatility Red Zone.
