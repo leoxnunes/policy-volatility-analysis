@@ -2,7 +2,7 @@ Policy Volatility, Institutional Credibility, and Strategic Plasticity
 This repository contains the preliminary quantitative analysis and data visualization for my doctoral research on firm behavior in Emerging Markets.
 
 Research Overview
-The project investigates how persistent policy volatility—the frequency and reversibility of regulatory change—shapes corporate investment. I introduce the concept of Strategic Plasticity: an organizational capability where firms maintain flexible, reversible investment structures (e.g., staged investments, limited sunk costs) to survive institutional instability.
+The project investigates how persistent policy volatility, the frequency and reversibility of regulatory change—shapes corporate investment. I introduce the concept of Strategic Plasticity: an organizational capability where firms maintain flexible, reversible investment structures (e.g., staged investments, limited sunk costs) to survive institutional instability.
 
 While this "plasticity" ensures short-term resilience, it often leads to a "Volatility Trap" of long-term underinvestment in innovation and industrial upgrading.
 
@@ -31,4 +31,12 @@ Rational Non-commitment: Countries within this zone (predominantly high-volatili
 
 Sunk Cost Aversion: As volatility crosses the identified threshold, the risk of "Capital Lock-in" outweighs the potential returns of long-term projects, leading firms to favor reversible, modular, or liquid operations.
 
-Relocation Dynamics: This empirical mapping provides the quantitative context for why firms (e.g., Brazilian manufacturers relocating to Paraguay) seek "Stability Arbitrage"—moving not necessarily for lower taxes, but to exit the high-volatility Red Zone.
+Relocation Dynamics: This empirical mapping provides the quantitative context for why firms (e.g., Brazilian manufacturers relocating to Paraguay) seek "Stability Arbitrage", moving not necessarily for lower taxes, but to exit the high-volatility Red Zone.
+
+---
+
+### How to Cite This Research
+If you use this data or the R scripts in your research, please cite it as:
+
+> Ramos, L. N. (2026). *Policy Volatility and Strategic Plasticity in Emerging Markets: A Quantitative Analysis*. GitHub Repository. https://github.com/leoxnunes/policy-volatility-analysis  
+> **ORCID:** [0009-0001-9090-7786](https://orcid.org/0009-0001-9090-7786)
